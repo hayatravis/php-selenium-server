@@ -63,7 +63,7 @@ class PhpSeleniumServer
      */
     public function isStopSeleniumServer()
     {
-        exec('ps | grep selenium-server-standalone', $output);
+        exec('ps | grep selenium-server-standalone 2>&1', $output);
         foreach ($output as $line) {
             if (preg_match('/selenium-server-standalone.jar/', $line)) return false;
         }
