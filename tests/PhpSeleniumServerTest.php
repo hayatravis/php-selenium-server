@@ -39,7 +39,7 @@ class PhpSeleniumServerTest extends TestCase
         $mock->startSeleniumServer();
         $command = 'ps aux | grep selenium-server-standalone';
         passthru($command);
-        $this->expectOutputRegex('/selenium-server-standalone.jar/');
+        $this->expectOutputRegex('/bin\/selenium-server-standalone/');
         $mock->stopSeleniumServer();
     }
 

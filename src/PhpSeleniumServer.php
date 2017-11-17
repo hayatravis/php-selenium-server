@@ -65,7 +65,7 @@ class PhpSeleniumServer
     {
         exec('ps aux | grep selenium-server-standalone 2>&1', $output);
         foreach ($output as $line) {
-            if (preg_match('/selenium-server-standalone.jar/', $line)) return false;
+            if (preg_match('/bin\/selenium-server-standalone/', $line)) return false;
         }
         return true;
     }
