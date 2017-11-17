@@ -22,7 +22,7 @@ class PhpSeleniumServer
             }
             $this->seleniumServerPath = $seleniumServerPath;
         } else {
-            $seleniumServerPath = dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone';
+            $seleniumServerPath = dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/vendor/bin/selenium-server-standalone';
             if (!file_exists($seleniumServerPath)) {
                 throw new PhpSeleniumServerException('Not found selenium-server-standalone. Please specify the file path.');
             }
