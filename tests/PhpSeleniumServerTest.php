@@ -12,6 +12,13 @@ class PhpSeleniumServerTest extends TestCase
         $this->assertNull($mock->getPid());
     }
 
+    public function testJavaIsAvailable()
+    {
+        $command = 'java -version 2>&1';
+        passthru($command);
+        $this->expectOutputRegex('/java version \"(.*)\"/');
+    }
+
     public function testGetPid()
     {
         /**
@@ -30,29 +37,10 @@ class PhpSeleniumServerTest extends TestCase
          */
         $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer');
         $mock->startSeleniumServer();
-        exec('ps | grep selenium-server-standalone', $output);
-        $result = false;
-        foreach ($output as $line) {
-            if (preg_match('/selenium-server-standalone.jar/', $line)) $result = true;
-        }
-        $this->assertTrue($result);
+        $command = 'ps | grep selenium-server-standalone';
+        passthru($command);
+        $this->expectOutputRegex('/selenium-server-standalone.jar/');
         $mock->stopSeleniumServer();
-    }
-
-    public function testStopSeleniumServer()
-    {
-        /**
-         * @var \Hayatravis\Pss\PhpSeleniumServer $mock
-         */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer');
-        $mock->startSeleniumServer();
-        $mock->stopSeleniumServer();
-        exec('ps | grep selenium-server-standalone', $output);
-        $result = false;
-        foreach ($output as $line) {
-            if (preg_match('/selenium-server-standalone.jar/', $line)) $result = true;
-        }
-        $this->assertFalse($result);
     }
 
     public function testIsStopSeleniumServerIsTrue()
