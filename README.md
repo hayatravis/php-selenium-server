@@ -1,6 +1,10 @@
 # php-selenium-server
 [![Build Status](https://travis-ci.org/hayatravis/php-selenium-server.svg?branch=master)](https://travis-ci.org/hayatravis/php-selenium-server)
 [![Coverage Status](https://coveralls.io/repos/github/hayatravis/php-selenium-server/badge.svg?branch=master)](https://coveralls.io/github/hayatravis/php-selenium-server?branch=master)
+[![Total Downloads](https://poser.pugx.org/hayatravis/php-selenium-server/downloads)](https://packagist.org/packages/hayatravis/php-selenium-server)
+[![License](https://poser.pugx.org/hayatravis/php-selenium-server/license)](https://packagist.org/packages/hayatravis/php-selenium-server)
+[![composer.lock](https://poser.pugx.org/hayatravis/php-selenium-server/composerlock)](https://packagist.org/packages/hayatravis/php-selenium-server)
+
 
 ## Usage
 ```php
