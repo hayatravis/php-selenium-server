@@ -37,7 +37,7 @@ class PhpSeleniumServerTest extends TestCase
          */
         $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer');
         $mock->startSeleniumServer();
-        $command = 'ps | grep selenium-server-standalone';
+        $command = 'ps aux | grep selenium-server-standalone';
         passthru($command);
         $this->expectOutputRegex('/selenium-server-standalone.jar/');
         $mock->stopSeleniumServer();
