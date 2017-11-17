@@ -1,14 +1,31 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class PhpSeleniumServerTest
+ *
+ * @property string $path
+ */
 class PhpSeleniumServerTest extends TestCase
 {
+    public $path;
+
+    public function setUp()
+    {
+        $this->path = dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone';
+    }
+
+    public function tearDown()
+    {
+        $this->path = null;
+    }
+
     public function testGetPidIsNull()
     {
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', $this->path);
         $this->assertNull($mock->getPid());
     }
 
@@ -24,7 +41,7 @@ class PhpSeleniumServerTest extends TestCase
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', $this->path);
         $mock->startSeleniumServer();
         $this->assertNotNull($mock->getPid());
         $mock->stopSeleniumServer();
@@ -35,12 +52,30 @@ class PhpSeleniumServerTest extends TestCase
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
-        $mock->startSeleniumServer();
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', $this->path);
+        $mock->startSeleniumServer(100000);
         $command = 'ps aux | grep selenium-server-standalone';
         passthru($command);
         $this->expectOutputRegex('/bin\/selenium-server-standalone/');
         $mock->stopSeleniumServer();
+    }
+
+    /**
+     * @expectedException \Hayatravis\Pss\Exception\PhpSeleniumServerException
+     * @expectedExceptionMessage Not found selenium-server-standalone.
+     */
+    public function testStartSeleniumSeverWithPathException()
+    {
+        Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', 'nothing');
+    }
+
+    /**
+     * @expectedException \Hayatravis\Pss\Exception\PhpSeleniumServerException
+     * @expectedExceptionMessage Not found selenium-server-standalone. Please specify the file path.
+     */
+    public function testStartSeleniumServerException()
+    {
+        Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer');
     }
 
     public function testIsStopSeleniumServerIsTrue()
@@ -48,7 +83,7 @@ class PhpSeleniumServerTest extends TestCase
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', $this->path);
         $mock->startSeleniumServer();
         $this->assertFalse($mock->isStopSeleniumServer());
         $mock->stopSeleniumServer();
@@ -59,7 +94,7 @@ class PhpSeleniumServerTest extends TestCase
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', $this->path);
         $this->assertTrue($mock->isStopSeleniumServer());
     }
 }
