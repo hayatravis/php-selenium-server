@@ -13,21 +13,38 @@ class PhpSeleniumServer
     private $pid;
     private $seleniumServerPath;
 
+    /**
+     * PhpSeleniumServer constructor.
+     *
+     * @param string|null $seleniumServerPath
+     */
     public function __construct(string $seleniumServerPath = null)
     {
+        $this->prepare($seleniumServerPath);
+    }
+
+    /**
+     * @param string|null $seleniumServerPath
+     */
+    public function prepare(string $seleniumServerPath = null)
+    {
         $this->pid = null;
-        if (!empty($seleniumServerPath)) {
-            if (!file_exists($seleniumServerPath)) {
-                throw new PhpSeleniumServerException('Not found selenium-server-standalone.');
-            }
-            $this->seleniumServerPath = $seleniumServerPath;
-        } else {
-            $seleniumServerPath = dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/vendor/bin/selenium-server-standalone';
-            if (!file_exists($seleniumServerPath)) {
-                throw new PhpSeleniumServerException('Not found selenium-server-standalone. Please specify the file path.');
-            }
-            $this->seleniumServerPath = $seleniumServerPath;
+        $path = $seleniumServerPath ?? dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/vendor/bin/selenium-server-standalone';
+        if (!$this->isExist($path)) {
+            throw new PhpSeleniumServerException('Not found selenium-server-standalone. Please specify the file path.');
         }
+        $this->seleniumServerPath = $seleniumServerPath;
+    }
+
+    /**
+     * Check Selenium server path.
+     * @param string|null $seleniumServerPath
+     *
+     * @return bool
+     */
+    public function isExist(string $seleniumServerPath = null)
+    {
+        return file_exists($seleniumServerPath);
     }
 
     /**
@@ -40,12 +57,17 @@ class PhpSeleniumServer
 
     /**
      * Start Selenium server standalone.
+     * if catch the WebDriverCurlException, set $microSeconds.
+     * @param int|null $microSeconds
      */
-    public function startSeleniumServer()
+    public function startSeleniumServer(int $microSeconds = null)
     {
         if (!$this->isStopSeleniumServer()) throw new PhpSeleniumServerException('It already started.');
         exec('nohup ' . $this->seleniumServerPath . ' > /dev/null 2>&1 & echo $! 2>&1', $output);
         $this->pid = $output[0];
+        if (!empty($microSeconds)) {
+            usleep($microSeconds);
+        }
     }
 
     /**
