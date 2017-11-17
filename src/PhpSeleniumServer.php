@@ -45,7 +45,6 @@ class PhpSeleniumServer
     {
         if (!$this->isStopSeleniumServer()) throw new PhpSeleniumServerException('It already started.');
         exec('nohup ' . $this->seleniumServerPath . ' > /dev/null 2>&1 & echo $! 2>&1', $output);
-        var_dump($output);
         $this->pid = $output[0];
     }
 
@@ -64,9 +63,7 @@ class PhpSeleniumServer
      */
     public function isStopSeleniumServer()
     {
-        exec('ps', $output);
-        var_dump($output);
-        exec('ps | grep selenium-server-standalone 2>&1', $output);
+        exec('ps aux | grep selenium-server-standalone 2>&1', $output);
         var_dump($output);
         foreach ($output as $line) {
             if (preg_match('/selenium-server-standalone.jar/', $line)) return false;
