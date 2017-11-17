@@ -64,6 +64,8 @@ class PhpSeleniumServer
      */
     public function isStopSeleniumServer()
     {
+        exec('ps', $output);
+        var_dump($output);
         exec('ps | grep selenium-server-standalone 2>&1', $output);
         var_dump($output);
         foreach ($output as $line) {
