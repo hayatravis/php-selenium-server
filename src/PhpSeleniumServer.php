@@ -57,6 +57,10 @@ class PhpSeleniumServer
         $this->pid = null;
     }
 
+    /**
+     * Check SeleniumServer is stop.
+     * @return bool
+     */
     public function isStopSeleniumServer()
     {
         exec('ps | grep selenium-server-standalone', $output);
