@@ -8,7 +8,7 @@ class PhpSeleniumServerTest extends TestCase
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer');
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
         $this->assertNull($mock->getPid());
     }
 
@@ -24,7 +24,7 @@ class PhpSeleniumServerTest extends TestCase
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer');
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
         $mock->startSeleniumServer();
         $this->assertNotNull($mock->getPid());
         $mock->stopSeleniumServer();
@@ -35,7 +35,7 @@ class PhpSeleniumServerTest extends TestCase
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer');
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
         $mock->startSeleniumServer();
         $command = 'ps aux | grep selenium-server-standalone';
         passthru($command);
@@ -48,7 +48,7 @@ class PhpSeleniumServerTest extends TestCase
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer');
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
         $mock->startSeleniumServer();
         $this->assertFalse($mock->isStopSeleniumServer());
         $mock->stopSeleniumServer();
@@ -59,7 +59,7 @@ class PhpSeleniumServerTest extends TestCase
         /**
          * @var \Hayatravis\Pss\PhpSeleniumServer $mock
          */
-        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer');
+        $mock = Phake::partialMock('Hayatravis\Pss\PhpSeleniumServer', dirname(dirname(__FILE__)).'/vendor/bin/selenium-server-standalone');
         $this->assertTrue($mock->isStopSeleniumServer());
     }
 }
