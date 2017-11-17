@@ -45,6 +45,7 @@ class PhpSeleniumServer
     {
         if (!$this->isStopSeleniumServer()) throw new PhpSeleniumServerException('It already started.');
         exec('nohup ' . $this->seleniumServerPath . ' > /dev/null 2>&1 & echo $! 2>&1', $output);
+        var_dump($output);
         $this->pid = $output[0];
     }
 
