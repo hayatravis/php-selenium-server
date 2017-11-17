@@ -33,7 +33,7 @@ class PhpSeleniumServer
         if (!$this->isExist($path)) {
             throw new PhpSeleniumServerException('Not found selenium-server-standalone. Please specify the file path.');
         }
-        $this->seleniumServerPath = $seleniumServerPath;
+        $this->seleniumServerPath = $path;
     }
 
     /**
